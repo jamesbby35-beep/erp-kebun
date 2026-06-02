@@ -153,7 +153,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-slate-100 p-6 md:p-12 text-slate-800 font-sans">
       <header className="mb-8 border-b border-slate-200 pb-4 max-w-5xl mx-auto">
-        <h1 className="text-3xl font-black text-emerald-700">🥑 GK AVOCADO ERP</h1>
+        <h1 className="text-3xl font-black text-emerald-700">🥑 GK AVOCADO Village</h1>
         <p className="text-sm text-slate-500 mt-1">Sistem Pemantauan Data Lahan &amp; Pohon Alpukat</p>
       </header>
 
