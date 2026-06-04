@@ -74,13 +74,12 @@ export default function DashboardAgrikulturSiohioma() {
   const totalOutflow = totalPengeluaran + totalOperasional
   const labaBersihKonsolidasi = totalPenjualan - totalOutflow
 
-  // Kalkulasi Persentase untuk Grafik Setengah Lingkaran (Pembagian 3 Pos)
+  // Kalkulasi Persentase untuk Grafik Setengah Lingkaran
   const grandTotalKomponen = totalPenjualan + totalPengeluaran + totalOperasional || 1
   const pctPenjualan = (totalPenjualan / grandTotalKomponen) * 100
   const pctPengeluaran = (totalPengeluaran / grandTotalKomponen) * 100
   const pctOperasional = (totalOperasional / grandTotalKomponen) * 100
 
-  // Perhitungan SVG Stroke Dasharray Setengah Lingkaran (Radius 50 -> Keliling Lingkaran = 314.16, Setengah Keliling = 157.08)
   const kelilingSetengah = 157.08
   const strokePenjualan = (pctPenjualan / 100) * kelilingSetengah
   const strokePengeluaran = (pctPengeluaran / 100) * kelilingSetengah
@@ -113,152 +112,167 @@ export default function DashboardAgrikulturSiohioma() {
 
   if (loading) {
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: '#f8fafc', fontFamily: 'sans-serif' }}>
-        <p style={{ color: '#64748b', fontSize: '16px', fontWeight: '700' }}>Sinkronisasi Database Core...</p>
+      <div className="flex justify-center items-center h-screen bg-slate-50 font-sans">
+        <p className="text-slate-500 text-base font-bold animate-pulse">Sinkronisasi Database Core...</p>
       </div>
     )
   }
 
   return (
-    <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', padding: '32px', fontFamily: 'sans-serif', color: '#0f172a' }}>
+    <div className="bg-slate-50 min-h-screen p-4 md:p-8 font-sans text-slate-900 w-full box-border">
       
       {/* HEADER DASHBOARD */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
         <div>
-          <h1 style={{ margin: 0, fontSize: '26px', fontWeight: '800', color: '#1e293b', letterSpacing: '-0.02em' }}>GK AVOCADO CORE EXECUTIVE</h1>
-          <span style={{ fontSize: '14px', color: '#64748b', fontWeight: '500' }}>Sistem Integrasi Agrikultur – Manajemen Lahan, Finansial & Distribusi Aset Investor</span>
+          <h1 className="m-0 text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
+            GK AVOCADO CORE EXECUTIVE
+          </h1>
+          <p className="text-xs md:text-sm text-slate-500 font-medium mt-1">
+            Sistem Integrasi Agrikultur – Lahan, Finansial & Distribusi Aset Investor
+          </p>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', backgroundColor: '#dcfce7', color: '#16a34a', padding: '8px 16px', borderRadius: '24px', fontSize: '13px', fontWeight: '700' }}>
-          <span style={{ width: '10px', height: '10px', backgroundColor: '#22c55e', borderRadius: '50%' }}></span> LIVE CORE CONNECTED
+        <div className="flex items-center gap-2.5 bg-green-50 text-green-700 px-4 py-2 rounded-full text-xs font-bold border border-green-200 shadow-sm self-start sm:self-auto">
+          <span className="w-2.5 h-2.5 bg-green-500 rounded-full animate-pulse"></span> LIVE CORE CONNECTED
         </div>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div className="flex flex-col gap-6">
         
-        {/* BARIS 1: LABA BERSIH & RINCIAN LABA KOMODITAS (BORDURNYA LEBIH BESAR TETAP) */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '24px' }}>
+        {/* BARIS 1: LABA BERSIH & RINCIAN LABA KOMODITAS */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          {/* Box Laba Bersih */}
-          <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '32px', border: '3px solid #10b981', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
-            <span style={{ fontSize: '13px', textTransform: 'uppercase', color: '#64748b', fontWeight: '800', letterSpacing: '0.05em' }}>Konsolidasi Laba Bersih (Netto)</span>
-            <h2 style={{ margin: '12px 0', fontSize: '42px', fontWeight: '900', color: '#10b981', letterSpacing: '-0.03em' }}>Rp {labaBersihKonsolidasi.toLocaleString('id-ID')}</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginTop: '20px', fontSize: '14px', borderTop: '2px solid #f1f5f9', paddingTop: '16px' }}>
-              <div><span style={{ color: '#64748b', fontWeight: '600' }}>Total Pendapatan:</span> <strong style={{ display: 'block', color: '#0f172a', fontSize: '16px', marginTop: '4px' }}>Rp {totalPenjualan.toLocaleString('id-ID')}</strong></div>
-              <div><span style={{ color: '#64748b', fontWeight: '600' }}>Total Beban Operasional + Kas:</span> <strong style={{ display: 'block', color: '#ef4444', fontSize: '16px', marginTop: '4px' }}>Rp {totalOutflow.toLocaleString('id-ID')}</strong></div>
+          {/* Box Laba Bersih (Mengambil 2 kolom di layar besar) */}
+          <div className="lg:col-span-2 bg-white rounded-2xl p-5 md:p-8 border-3 border-emerald-500 shadow-sm">
+            <span className="text-xs uppercase text-slate-400 font-extrabold tracking-wider">
+              Konsolidasi Laba Bersih (Netto)
+            </span>
+            <h2 className="my-3 text-3xl md:text-4xl font-black text-emerald-500 tracking-tight break-words">
+              Rp {labaBersihKonsolidasi.toLocaleString('id-ID')}
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5 pt-4 border-t-2 border-slate-100 text-xs md:text-sm">
+              <div>
+                <span className="text-slate-400 font-semibold">Total Pendapatan:</span> 
+                <strong className="block text-slate-900 text-sm md:text-base mt-1">
+                  Rp {totalPenjualan.toLocaleString('id-ID')}
+                </strong>
+              </div>
+              <div>
+                <span className="text-slate-400 font-semibold">Total Beban Operasional + Kas:</span> 
+                <strong className="block text-rose-500 text-sm md:text-base mt-1">
+                  Rp {totalOutflow.toLocaleString('id-ID')}
+                </strong>
+              </div>
             </div>
           </div>
 
           {/* Box Rincian Laba Komoditas */}
-          <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '32px', border: '3px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
-            <span style={{ fontSize: '13px', textTransform: 'uppercase', color: '#64748b', fontWeight: '800', letterSpacing: '0.05em' }}>Rincian Laba Komoditas</span>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', marginTop: '18px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f8fafc', padding: '14px 18px', borderRadius: '10px', border: '1.5px solid #e2e8f0' }}>
-                <span style={{ fontSize: '15px', fontWeight: '700' }}>🥑 Penjualan Alpukat</span>
-                <strong style={{ color: '#0f172a', fontSize: '16px' }}>Rp {labaAlpukat.toLocaleString('id-ID')}</strong>
+          <div className="bg-white rounded-2xl p-5 md:p-8 border-3 border-slate-200 shadow-sm">
+            <span className="text-xs uppercase text-slate-400 font-extrabold tracking-wider">
+              Rincian Laba Komoditas
+            </span>
+            <div className="flex flex-col gap-3.5 mt-4.5">
+              <div className="flex justify-between items-center bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <span className="text-sm font-bold text-slate-700">🥑 Penjualan Alpukat</span>
+                <strong className="text-slate-900 text-sm md:text-base">Rp {labaAlpukat.toLocaleString('id-ID')}</strong>
               </div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f8fafc', padding: '14px 18px', borderRadius: '10px', border: '1.5px solid #e2e8f0' }}>
-                <span style={{ fontSize: '15px', fontWeight: '700' }}>🍊 Komoditas Lainnya</span>
-                <strong style={{ color: '#0f172a', fontSize: '16px' }}>Rp {labaLainnya.toLocaleString('id-ID')}</strong>
+              <div className="flex justify-between items-center bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <span className="text-sm font-bold text-slate-700">🍊 Komoditas Lainnya</span>
+                <strong className="text-slate-900 text-sm md:text-base">Rp {labaLainnya.toLocaleString('id-ID')}</strong>
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* BARIS 2: VOLUME PANEN & SENSUS POHON (LEBIH LEBAR), DI SAMPINGNYA GRAFIK 1/2 LINGKARAN & ZONASI KECIL */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '24px' }}>
+        {/* BARIS 2: VOLUME PANEN & SENSUS POHON (KIRI) | GRAFIK & ZONASI (KANAN) */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
           
-          {/* Kolom Kiri: Volume Hasil Panen & Sensus Pohon Terdata (Lebar & Font Besar) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Kolom Kiri Gabungan (Volume Hasil Panen & Sensus Pohon) */}
+          <div className="flex flex-col gap-6 xl:col-span-2">
             
             {/* Volume Hasil Panen */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '28px', border: '2.5px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-              <span style={{ fontSize: '13px', textTransform: 'uppercase', color: '#64748b', fontWeight: '800' }}>Volume Hasil Panen (Real)</span>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px', margin: '10px 0 18px 0' }}>
-                <h3 style={{ margin: 0, fontSize: '36px', fontWeight: '900', color: '#10b981' }}>{(panenAlpukatKg + panenLainnyaKg).toLocaleString('id-ID')}</h3>
-                <span style={{ fontSize: '16px', fontWeight: '700', color: '#64748b' }}>Kg Terakumulasi Nyata</span>
+            <div className="bg-white rounded-2xl p-5 md:p-6 border-2.5 border-slate-200 shadow-xs">
+              <span className="text-xs uppercase text-slate-400 font-extrabold">Volume Hasil Panen (Real)</span>
+              <div className="flex flex-wrap items-baseline gap-2 my-3">
+                <h3 className="m-0 text-2xl md:text-3xl font-black text-emerald-500">
+                  {(panenAlpukatKg + panenLainnyaKg).toLocaleString('id-ID')}
+                </h3>
+                <span className="text-xs md:text-sm font-bold text-slate-400">Kg Terakumulasi Nyata</span>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', fontSize: '14px' }}>
-                <div style={{ borderLeft: '4px solid #10b981', paddingLeft: '12px' }}>
-                  <span style={{ color: '#64748b', fontWeight: '600' }}>Varietas Alpukat:</span>
-                  <strong style={{ display: 'block', fontSize: '16px', marginTop: '2px' }}>{panenAlpukatKg.toLocaleString('id-ID')} Kg</strong>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs md:text-sm mt-2">
+                <div className="border-l-4 border-emerald-500 pl-3">
+                  <span className="text-slate-400 font-semibold">Varietas Alpukat:</span>
+                  <strong className="block text-sm md:text-base mt-0.5">{panenAlpukatKg.toLocaleString('id-ID')} Kg</strong>
                 </div>
-                <div style={{ borderLeft: '4px solid #f59e0b', paddingLeft: '12px' }}>
-                  <span style={{ color: '#64748b', fontWeight: '600' }}>Lainnya (Semangka/Muria/Jeruk):</span>
-                  <strong style={{ display: 'block', fontSize: '16px', marginTop: '2px' }}>{panenLainnyaKg.toLocaleString('id-ID')} Kg</strong>
+                <div className="border-l-4 border-amber-500 pl-3">
+                  <span className="text-slate-400 font-semibold">Lainnya (Semangka/Jeruk):</span>
+                  <strong className="block text-sm md:text-base mt-0.5">{panenLainnyaKg.toLocaleString('id-ID')} Kg</strong>
                 </div>
               </div>
             </div>
 
             {/* Sensus Pohon Terdata */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '28px', border: '2.5px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-              <span style={{ fontSize: '13px', textTransform: 'uppercase', color: '#64748b', fontWeight: '800' }}>Aset Sensus Pohon Terdata</span>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px', margin: '10px 0 18px 0' }}>
-                <h3 style={{ margin: 0, fontSize: '32px', fontWeight: '900', color: '#1e293b' }}>{(pohonAlpukatBtg + pohonLainnyaBtg).toLocaleString('id-ID')}</h3>
-                <span style={{ fontSize: '15px', fontWeight: '700', color: '#64748b' }}>Batang Tegakan Hidup</span>
+            <div className="bg-white rounded-2xl p-5 md:p-6 border-2.5 border-slate-200 shadow-xs">
+              <span className="text-xs uppercase text-slate-400 font-extrabold">Aset Sensus Pohon Terdata</span>
+              <div className="flex flex-wrap items-baseline gap-2 my-3">
+                <h3 className="m-0 text-2xl md:text-3xl font-black text-slate-800">
+                  {(pohonAlpukatBtg + pohonLainnyaBtg).toLocaleString('id-ID')}
+                </h3>
+                <span className="text-xs md:text-sm font-bold text-slate-400">Batang Tegakan Hidup</span>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', fontSize: '14px' }}>
-                <div style={{ borderLeft: '4px solid #22c55e', paddingLeft: '12px' }}>
-                  <span style={{ color: '#64748b', fontWeight: '600' }}>Pohon Alpukat Produktif:</span>
-                  <strong style={{ display: 'block', fontSize: '16px', color: '#16a34a', marginTop: '2px' }}>{pohonAlpukatBtg} Btg</strong>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs md:text-sm mt-2">
+                <div className="border-l-4 border-green-500 pl-3">
+                  <span className="text-slate-400 font-semibold">Pohon Alpukat Produktif:</span>
+                  <strong className="block text-sm md:text-base text-green-600 mt-0.5">{pohonAlpukatBtg} Btg</strong>
                 </div>
-                <div style={{ borderLeft: '4px solid #64748b', paddingLeft: '12px' }}>
-                  <span style={{ color: '#64748b', fontWeight: '600' }}>Pohon Pendukung Lahan:</span>
-                  <strong style={{ display: 'block', fontSize: '16px', marginTop: '2px' }}>{pohonLainnyaBtg} Btg</strong>
+                <div className="border-l-4 border-slate-400 pl-3">
+                  <span className="text-slate-400 font-semibold">Pohon Pendukung Lahan:</span>
+                  <strong className="block text-sm md:text-base mt-0.5">{pohonLainnyaBtg} Btg</strong>
                 </div>
               </div>
             </div>
 
           </div>
 
-          {/* Kolom Kanan: Grafik Setengah Lingkaran (3 Pembagian) & Zonasi Lahan yang Diperkecil */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          {/* Kolom Kanan Gabungan (Grafik Setengah Lingkaran & Zonasi) */}
+          <div className="flex flex-col gap-6">
             
-            {/* Grafik Setengah Lingkaran (Struktur Kas) */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '24px', border: '2.5px solid #e2e8f0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: '13px', textTransform: 'uppercase', color: '#64748b', fontWeight: '800', alignSelf: 'flex-start', marginBottom: '12px' }}>Struktur Keuangan Kebun</span>
+            {/* Grafik Struktur Keuangan Kebun */}
+            <div className="bg-white rounded-2xl p-5 border-2.5 border-slate-200 flex flex-col items-center justify-center">
+              <span className="text-xs uppercase text-slate-400 font-extrabold align-self-start w-full text-left mb-3">
+                Struktur Keuangan Kebun
+              </span>
               
-              {/* SVG Gauge Setengah Lingkaran */}
-              <div style={{ position: 'relative', width: '220px', height: '120px', overflow: 'hidden' }}>
-                <svg width="220" height="220" viewBox="0 0 120 120" style={{ transform: 'rotate(-180deg)', transformOrigin: '60px 60px' }}>
-                  {/* Lingkaran Dasar / Background */}
+              <div className="relative w-[180px] h-[100px] overflow-hidden flex justify-center items-end">
+                <svg width="180" height="180" viewBox="0 0 120 120" className="-rotate-180 origin-[60px_60px]">
                   <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" strokeWidth="12" />
-                  
-                  {/* Segment 1: Penjualan */}
-                  <circle cx="60" cy="60" r="50" fill="none" stroke="#10b981" strokeWidth="12" 
-                    strokeDasharray={`${strokePenjualan} 314.16`} strokeDashoffset="0" />
-                  
-                  {/* Segment 2: Pengeluaran */}
-                  <circle cx="60" cy="60" r="50" fill="none" stroke="#ef4444" strokeWidth="12" 
-                    strokeDasharray={`${strokePengeluaran} 314.16`} strokeDashoffset={`-${strokePenjualan}`} />
-                  
-                  {/* Segment 3: Operasional */}
-                  <circle cx="60" cy="60" r="50" fill="none" stroke="#3b82f6" strokeWidth="12" 
-                    strokeDasharray={`${strokeOperasional} 314.16`} strokeDashoffset={`-${strokePenjualan + strokePengeluaran}`} />
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="#10b981" strokeWidth="12" strokeDasharray={`${strokePenjualan} 314.16`} strokeDashoffset="0" />
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="#ef4444" strokeWidth="12" strokeDasharray={`${strokePengeluaran} 314.16`} strokeDashoffset={`-${strokePenjualan}`} />
+                  <circle cx="60" cy="60" r="50" fill="none" stroke="#3b82f6" strokeWidth="12" strokeDasharray={`${strokeOperasional} 314.16`} strokeDashoffset={`-${strokePenjualan + strokePengeluaran}`} />
                 </svg>
-                <div style={{ position: 'absolute', bottom: '0', left: '0', right: '0', textAlign: 'center' }}>
-                  <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '700' }}>PROPORSI POS</span>
+                <div className="absolute bottom-0 text-center w-full">
+                  <span className="text-[10px] text-slate-400 font-extrabold tracking-wider">PROPORSI POS</span>
                 </div>
               </div>
 
-              {/* Legend Grafik */}
-              <div style={{ display: 'flex', gap: '14px', marginTop: '14px', flexWrap: 'wrap', justifyContent: 'center', fontSize: '12px', fontWeight: '700' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><span style={{ width: '10px', height: '10px', backgroundColor: '#10b981', borderRadius: '50%' }}></span> Jual ({Math.round(pctPenjualan)}%)</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><span style={{ width: '10px', height: '10px', backgroundColor: '#ef4444', borderRadius: '50%' }}></span> Keluar ({Math.round(pctPengeluaran)}%)</div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><span style={{ width: '10px', height: '10px', backgroundColor: '#3b82f6', borderRadius: '50%' }}></span> Operasional ({Math.round(pctOperasional)}%)</div>
+              {/* Indikator Sektor Legenda */}
+              <div className="grid grid-cols-3 gap-1.5 w-full mt-4 text-[10px] sm:text-xs font-bold text-center">
+                <div className="p-1.5 bg-green-50 rounded-lg text-green-700">● Jual ({Math.round(pctPenjualan)}%)</div>
+                <div className="p-1.5 bg-red-50 rounded-lg text-red-700">● Keluar ({Math.round(pctPengeluaran)}%)</div>
+                <div className="p-1.5 bg-blue-50 rounded-lg text-blue-700">● Ops ({Math.round(pctOperasional)}%)</div>
               </div>
             </div>
 
-            {/* Zonasi Wilayah Lahan (Ukurannya Diperkecil Ringkas) */}
-            <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '20px', border: '2.5px solid #e2e8f0' }}>
-              <span style={{ fontSize: '13px', textTransform: 'uppercase', color: '#64748b', fontWeight: '800' }}>Zonasi Wilayah Lahan</span>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '8px 0' }}>
-                <span style={{ fontSize: '32px', fontWeight: '900', color: '#047857' }}>{bloks.length}</span>
-                <span style={{ fontSize: '14px', fontWeight: '700', color: '#475569' }}>Total Blok Kategori Aktif</span>
+            {/* Zonasi Wilayah Lahan Ringkas */}
+            <div className="bg-white rounded-2xl p-5 border-2.5 border-slate-200">
+              <span className="text-xs uppercase text-slate-400 font-extrabold">Zonasi Wilayah Lahan</span>
+              <div className="flex items-center gap-3 my-2.5">
+                <span className="text-3xl font-black text-emerald-700">{bloks.length}</span>
+                <span className="text-xs md:text-sm font-bold text-slate-500">Total Blok Kategori Aktif</span>
               </div>
-              <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+              <div className="flex gap-2 flex-wrap">
                 {bloks.map((b, idx) => (
-                  <span key={idx} style={{ fontSize: '12px', backgroundColor: '#f1f5f9', padding: '4px 10px', borderRadius: '6px', border: '1.5px solid #e2e8f0', fontWeight: '700', color: '#334155' }}>
+                  <span key={idx} className="text-xs bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 font-bold text-slate-600">
                     {b.nama_blok || b.block_id || b.id}
                   </span>
                 ))}
@@ -269,39 +283,42 @@ export default function DashboardAgrikulturSiohioma() {
 
         </div>
 
-        {/* BARIS 3: DISTRIBUSI KEPEMILIKAN INVESTOR (DENGAN LUAS LAHAN MASTER BLOK) & JURNAL ARUS MUTASI */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1.1fr 0.9fr', gap: '24px', alignItems: 'start' }}>
+        {/* BARIS 3: DISTRIBUSI KEPEMILIKAN INVESTOR & JURNAL ARUS MUTASI KAS */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
           
-          {/* Distribusi Kepemilikan Investor */}
-          <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '28px', border: '2.5px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.01)' }}>
-            <h3 style={{ margin: '0 0 6px 0', fontSize: '18px', fontWeight: '800', letterSpacing: '-0.01em' }}>Distribusi Kepemilikan Investor per Lahan</h3>
-            <p style={{ margin: '0 0 ' + '18px 0', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>Daftar konsorsium pemegang porsi saham diurutkan berdasarkan kode blok wilayah kebun.</p>
+          {/* Distribusi Kepemilikan Investor (Layar besar ambil 2 kolom) */}
+          <div className="xl:col-span-2 bg-white rounded-2xl p-5 md:p-6 border-2.5 border-slate-200 shadow-xs">
+            <h3 className="m-0 text-base md:text-lg font-black text-slate-800 tracking-tight">
+              Distribusi Kepemilikan Investor per Lahan
+            </h3>
+            <p className="m-0 mt-1 text-xs text-slate-400 font-medium">
+              Daftar konsorsium pemegang porsi saham diurutkan berdasarkan kode blok wilayah kebun.
+            </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            <div className="flex flex-col gap-4 mt-5">
               {bloks.map((b, i) => {
                 const idBlok = b.block_id || b.id
                 const investorTerikat = investors.filter(inv => inv.block_id === idBlok)
 
                 return (
-                  <div key={i} style={{ border: '2px solid #e2e8f0', borderRadius: '12px', padding: '16px', backgroundColor: '#f8fafc' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e2e8f0', paddingBottom: '8px', marginBottom: '12px', fontSize: '14px', fontWeight: '800', color: '#047857' }}>
-                      <span>📍 {b.nama_blok || idBlok}</span>
-                      {/* Menampilkan Luas Lahan Sesuai dengan Data yang Ada di Master Blok */}
-                      <span style={{ backgroundColor: '#e0f2fe', color: '#0369a1', padding: '4px 10px', borderRadius: '6px', fontSize: '12px' }}>
-                        Luas Lahan: {b.luas_lahan || b.luas || 'Belum Terinput'}
+                  <div key={i} className="border-2 border-slate-100 rounded-xl p-4 bg-slate-50/50">
+                    <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b-2 border-slate-100 pb-2.5 mb-3 text-xs md:text-sm font-extrabold text-emerald-800">
+                      <span className="flex items-center gap-1">📍 {b.nama_blok || idBlok}</span>
+                      <span className="bg-sky-50 text-sky-700 px-2.5 py-1 rounded-md text-xs font-bold border border-sky-100 self-start sm:self-auto">
+                        Luas Lahan: {b.luas_lahan || b.luas || '0'} m²
                       </span>
                     </div>
 
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div className="flex flex-col gap-2">
                       {investorTerikat.length === 0 ? (
-                        <span style={{ fontSize: '13px', color: '#94a3b8', fontStyle: 'italic', fontWeight: '500' }}>Belum ada entitas investor terikat</span>
+                        <span className="text-xs text-slate-400 italic font-medium">Belum ada entitas investor terikat</span>
                       ) : (
                         investorTerikat.map((inv, idx) => {
                           const nilaiSaham = inv.persen_saham !== undefined && inv.persen_saham !== null ? inv.persen_saham : 0;
                           return (
-                            <div key={idx} style={{ fontSize: '14px', display: 'flex', justifyContent: 'space-between', backgroundColor: '#ffffff', padding: '10px 14px', borderRadius: '8px', border: '1.5px solid #f1f5f9', fontWeight: '600' }}>
-                              <span style={{ color: '#475569' }}>• {inv.nama || inv.nama_investor}</span>
-                              <span style={{ fontWeight: '800', color: '#0284c7' }}>{nilaiSaham}% Saham</span>
+                            <div key={idx} className="text-xs md:text-sm flex justify-between items-center bg-white p-2.5 rounded-lg border border-slate-200/60 font-semibold">
+                              <span className="text-slate-600">👤 {inv.nama || inv.nama_investor}</span>
+                              <span className="font-extrabold text-sky-600 bg-sky-50 px-2 py-0.5 rounded">{nilaiSaham}% Saham</span>
                             </div>
                           )
                         })
@@ -314,27 +331,32 @@ export default function DashboardAgrikulturSiohioma() {
           </div>
 
           {/* Jurnal Arus Mutasi Kas */}
-          <div style={{ backgroundColor: '#ffffff', borderRadius: '16px', padding: '28px', border: '2.5px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.01)' }}>
-            <h3 style={{ margin: '0 0 6px 0', fontSize: '18px', fontWeight: '800', letterSpacing: '-0.01em' }}>Jurnal Ringkas Arus Mutasi Kas</h3>
-            <p style={{ margin: '0 0 18px 0', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>Log transaksi mutasi modal kas masuk (In) dan keluar (Out) terbaru di lapangan.</p>
+          <div className="bg-white rounded-2xl p-5 md:p-6 border-2.5 border-slate-200 shadow-xs">
+            <h3 className="m-0 text-base md:text-lg font-black text-slate-800 tracking-tight">
+              Jurnal Ringkas Arus Mutasi Kas
+            </h3>
+            <p className="m-0 mt-1 text-xs text-slate-400 font-medium">
+              Log transaksi mutasi modal kas masuk (In) dan keluar (Out) terbaru di lapangan.
+            </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+            <div className="flex flex-col gap-3 mt-5">
               {penjualans.slice(0, 3).map((j, idx) => (
-                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', backgroundColor: '#f0fdf4', borderRadius: '8px', border: '1.5px solid #bbf7d0' }}>
-                  <div>
-                    <strong style={{ display: 'block', fontSize: '14px', color: '#14532d' }}>{j.pembeli || 'Hasil Niaga Lahan'}</strong>
-                    <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '500' }}>{j.tanggal}</span>
+                <div key={idx} className="flex justify-between items-center p-3 bg-green-50/70 rounded-xl border border-green-200 text-xs md:text-sm">
+                  <div className="min-w-0 flex-1 pr-2">
+                    <strong className="block text-slate-800 truncate">🟢 {j.pembeli || 'Hasil Niaga Lahan'}</strong>
+                    <span className="text-[11px] text-slate-400 font-medium">{j.tanggal}</span>
                   </div>
-                  <strong style={{ color: '#16a34a', fontSize: '15px', fontWeight: '800' }}>+ Rp {(Number(j.total) || 0).toLocaleString('id-ID')}</strong>
+                  <strong className="text-green-600 font-black whitespace-nowrap">+ Rp {(Number(j.total) || 0).toLocaleString('id-ID')}</strong>
                 </div>
               ))}
+              
               {pengeluarans.slice(0, 2).map((p, idx) => (
-                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', backgroundColor: '#fef2f2', borderRadius: '8px', border: '1.5px solid #fecaca' }}>
-                  <div>
-                    <strong style={{ display: 'block', fontSize: '14px', color: '#7f1d1d' }}>{p.keperluan || 'Biaya Logistik Pupuk'}</strong>
-                    <span style={{ fontSize: '12px', color: '#64748b', fontWeight: '500' }}>{p.tanggal}</span>
+                <div key={idx} className="flex justify-between items-center p-3 bg-red-50/70 rounded-xl border border-red-200 text-xs md:text-sm">
+                  <div className="min-w-0 flex-1 pr-2">
+                    <strong className="block text-slate-800 truncate">🔴 {p.keperluan || 'Biaya Logistik Lahan'}</strong>
+                    <span className="text-[11px] text-slate-400 font-medium">{p.tanggal}</span>
                   </div>
-                  <strong style={{ color: '#dc2626', fontSize: '15px', fontWeight: '800' }}>- Rp {(Number(p.nominal) || 0).toLocaleString('id-ID')}</strong>
+                  <strong className="text-rose-600 font-black whitespace-nowrap">- Rp {(Number(p.nominal) || 0).toLocaleString('id-ID')}</strong>
                 </div>
               ))}
             </div>
@@ -343,7 +365,6 @@ export default function DashboardAgrikulturSiohioma() {
         </div>
 
       </div>
-
     </div>
   )
 }
