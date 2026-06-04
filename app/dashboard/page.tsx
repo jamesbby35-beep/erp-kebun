@@ -125,7 +125,7 @@ export default function DashboardAgrikulturSiohioma() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 md:mb-8">
         <div>
           <h1 className="m-0 text-xl md:text-2xl font-extrabold text-slate-800 tracking-tight">
-            GK AVOCADO CORE EXECUTIVE
+            📋 GK AVOCADO CORE EXECUTIVE
           </h1>
           <p className="text-xs md:text-sm text-slate-500 font-medium mt-1">
             Sistem Integrasi Agrikultur – Lahan, Finansial & Distribusi Aset Investor
@@ -141,23 +141,23 @@ export default function DashboardAgrikulturSiohioma() {
         {/* BARIS 1: LABA BERSIH & RINCIAN LABA KOMODITAS */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           
-          {/* Box Laba Bersih (Mengambil 2 kolom di layar besar) */}
+          {/* Box Laba Bersih */}
           <div className="lg:col-span-2 bg-white rounded-2xl p-5 md:p-8 border-3 border-emerald-500 shadow-sm">
-            <span className="text-xs uppercase text-slate-400 font-extrabold tracking-wider">
-              Konsolidasi Laba Bersih (Netto)
+            <span className="text-xs uppercase text-slate-400 font-extrabold tracking-wider flex items-center gap-1">
+              💵 Konsolidasi Laba Bersih (Netto)
             </span>
             <h2 className="my-3 text-3xl md:text-4xl font-black text-emerald-500 tracking-tight break-words">
               Rp {labaBersihKonsolidasi.toLocaleString('id-ID')}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5 pt-4 border-t-2 border-slate-100 text-xs md:text-sm">
               <div>
-                <span className="text-slate-400 font-semibold">Total Pendapatan:</span> 
+                <span className="text-slate-400 font-semibold">📈 Total Pendapatan:</span> 
                 <strong className="block text-slate-900 text-sm md:text-base mt-1">
                   Rp {totalPenjualan.toLocaleString('id-ID')}
                 </strong>
               </div>
               <div>
-                <span className="text-slate-400 font-semibold">Total Beban Operasional + Kas:</span> 
+                <span className="text-slate-400 font-semibold">📉 Total Beban Operasional + Kas:</span> 
                 <strong className="block text-rose-500 text-sm md:text-base mt-1">
                   Rp {totalOutflow.toLocaleString('id-ID')}
                 </strong>
@@ -167,8 +167,8 @@ export default function DashboardAgrikulturSiohioma() {
 
           {/* Box Rincian Laba Komoditas */}
           <div className="bg-white rounded-2xl p-5 md:p-8 border-3 border-slate-200 shadow-sm">
-            <span className="text-xs uppercase text-slate-400 font-extrabold tracking-wider">
-              Rincian Laba Komoditas
+            <span className="text-xs uppercase text-slate-400 font-extrabold tracking-wider flex items-center gap-1">
+              📊 Rincian Laba Komoditas
             </span>
             <div className="flex flex-col gap-3.5 mt-4.5">
               <div className="flex justify-between items-center bg-slate-50 p-3.5 rounded-xl border border-slate-200">
@@ -192,7 +192,7 @@ export default function DashboardAgrikulturSiohioma() {
             
             {/* Volume Hasil Panen */}
             <div className="bg-white rounded-2xl p-5 md:p-6 border-2.5 border-slate-200 shadow-xs">
-              <span className="text-xs uppercase text-slate-400 font-extrabold">Volume Hasil Panen (Real)</span>
+              <span className="text-xs uppercase text-slate-400 font-extrabold flex items-center gap-1">🚜 Volume Hasil Panen (Real)</span>
               <div className="flex flex-wrap items-baseline gap-2 my-3">
                 <h3 className="m-0 text-2xl md:text-3xl font-black text-emerald-500">
                   {(panenAlpukatKg + panenLainnyaKg).toLocaleString('id-ID')}
@@ -201,11 +201,11 @@ export default function DashboardAgrikulturSiohioma() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs md:text-sm mt-2">
                 <div className="border-l-4 border-emerald-500 pl-3">
-                  <span className="text-slate-400 font-semibold">Varietas Alpukat:</span>
+                  <span className="text-slate-400 font-semibold">🥑 Varietas Alpukat:</span>
                   <strong className="block text-sm md:text-base mt-0.5">{panenAlpukatKg.toLocaleString('id-ID')} Kg</strong>
                 </div>
                 <div className="border-l-4 border-amber-500 pl-3">
-                  <span className="text-slate-400 font-semibold">Lainnya (Semangka/Jeruk):</span>
+                  <span className="text-slate-400 font-semibold">🍊 Lainnya (Semangka/Jeruk):</span>
                   <strong className="block text-sm md:text-base mt-0.5">{panenLainnyaKg.toLocaleString('id-ID')} Kg</strong>
                 </div>
               </div>
@@ -213,7 +213,7 @@ export default function DashboardAgrikulturSiohioma() {
 
             {/* Sensus Pohon Terdata */}
             <div className="bg-white rounded-2xl p-5 md:p-6 border-2.5 border-slate-200 shadow-xs">
-              <span className="text-xs uppercase text-slate-400 font-extrabold">Aset Sensus Pohon Terdata</span>
+              <span className="text-xs uppercase text-slate-400 font-extrabold flex items-center gap-1">🌳 Aset Sensus Pohon Terdata</span>
               <div className="flex flex-wrap items-baseline gap-2 my-3">
                 <h3 className="m-0 text-2xl md:text-3xl font-black text-slate-800">
                   {(pohonAlpukatBtg + pohonLainnyaBtg).toLocaleString('id-ID')}
@@ -222,11 +222,11 @@ export default function DashboardAgrikulturSiohioma() {
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs md:text-sm mt-2">
                 <div className="border-l-4 border-green-500 pl-3">
-                  <span className="text-slate-400 font-semibold">Pohon Alpukat Produktif:</span>
+                  <span className="text-slate-400 font-semibold">🌿 Pohon Alpukat Produktif:</span>
                   <strong className="block text-sm md:text-base text-green-600 mt-0.5">{pohonAlpukatBtg} Btg</strong>
                 </div>
                 <div className="border-l-4 border-slate-400 pl-3">
-                  <span className="text-slate-400 font-semibold">Pohon Pendukung Lahan:</span>
+                  <span className="text-slate-400 font-semibold">🪵 Pohon Pendukung Lahan:</span>
                   <strong className="block text-sm md:text-base mt-0.5">{pohonLainnyaBtg} Btg</strong>
                 </div>
               </div>
@@ -239,8 +239,8 @@ export default function DashboardAgrikulturSiohioma() {
             
             {/* Grafik Struktur Keuangan Kebun */}
             <div className="bg-white rounded-2xl p-5 border-2.5 border-slate-200 flex flex-col items-center justify-center">
-              <span className="text-xs uppercase text-slate-400 font-extrabold align-self-start w-full text-left mb-3">
-                Struktur Keuangan Kebun
+              <span className="text-xs uppercase text-slate-400 font-extrabold align-self-start w-full text-left mb-3 flex items-center gap-1">
+                📈 Struktur Keuangan Kebun
               </span>
               
               <div className="relative w-[180px] h-[100px] overflow-hidden flex justify-center items-end">
@@ -265,7 +265,7 @@ export default function DashboardAgrikulturSiohioma() {
 
             {/* Zonasi Wilayah Lahan Ringkas */}
             <div className="bg-white rounded-2xl p-5 border-2.5 border-slate-200">
-              <span className="text-xs uppercase text-slate-400 font-extrabold">Zonasi Wilayah Lahan</span>
+              <span className="text-xs uppercase text-slate-400 font-extrabold flex items-center gap-1">🗺️ Zonasi Wilayah Lahan</span>
               <div className="flex items-center gap-3 my-2.5">
                 <span className="text-3xl font-black text-emerald-700">{bloks.length}</span>
                 <span className="text-xs md:text-sm font-bold text-slate-500">Total Blok Kategori Aktif</span>
@@ -273,7 +273,7 @@ export default function DashboardAgrikulturSiohioma() {
               <div className="flex gap-2 flex-wrap">
                 {bloks.map((b, idx) => (
                   <span key={idx} className="text-xs bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200 font-bold text-slate-600">
-                    {b.nama_blok || b.block_id || b.id}
+                    📍 {b.nama_blok || b.block_id || b.id}
                   </span>
                 ))}
               </div>
@@ -286,10 +286,10 @@ export default function DashboardAgrikulturSiohioma() {
         {/* BARIS 3: DISTRIBUSI KEPEMILIKAN INVESTOR & JURNAL ARUS MUTASI KAS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 items-start">
           
-          {/* Distribusi Kepemilikan Investor (Layar besar ambil 2 kolom) */}
+          {/* Distribusi Kepemilikan Investor */}
           <div className="xl:col-span-2 bg-white rounded-2xl p-5 md:p-6 border-2.5 border-slate-200 shadow-xs">
-            <h3 className="m-0 text-base md:text-lg font-black text-slate-800 tracking-tight">
-              Distribusi Kepemilikan Investor per Lahan
+            <h3 className="m-0 text-base md:text-lg font-black text-slate-800 tracking-tight flex items-center gap-1">
+              👥 Distribusi Kepemilikan Investor per Lahan
             </h3>
             <p className="m-0 mt-1 text-xs text-slate-400 font-medium">
               Daftar konsorsium pemegang porsi saham diurutkan berdasarkan kode blok wilayah kebun.
@@ -303,9 +303,10 @@ export default function DashboardAgrikulturSiohioma() {
                 return (
                   <div key={i} className="border-2 border-slate-100 rounded-xl p-4 bg-slate-50/50">
                     <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b-2 border-slate-100 pb-2.5 mb-3 text-xs md:text-sm font-extrabold text-emerald-800">
-                      <span className="flex items-center gap-1">📍 {b.nama_blok || idBlok}</span>
+                      <span className="flex items-center gap-1">🏞️ {b.nama_blok || idBlok}</span>
+                      {/* PERBAIKAN UTAMA: Mengambil nilai m² murni langsung dari field b.luas_m2 */}
                       <span className="bg-sky-50 text-sky-700 px-2.5 py-1 rounded-md text-xs font-bold border border-sky-100 self-start sm:self-auto">
-                        Luas Lahan: {b.luas_lahan || b.luas || '0'} m²
+                        📐 Luas Lahan: {b.luas_m2 || '0'} m²
                       </span>
                     </div>
 
@@ -332,8 +333,8 @@ export default function DashboardAgrikulturSiohioma() {
 
           {/* Jurnal Arus Mutasi Kas */}
           <div className="bg-white rounded-2xl p-5 md:p-6 border-2.5 border-slate-200 shadow-xs">
-            <h3 className="m-0 text-base md:text-lg font-black text-slate-800 tracking-tight">
-              Jurnal Ringkas Arus Mutasi Kas
+            <h3 className="m-0 text-base md:text-lg font-black text-slate-800 tracking-tight flex items-center gap-1">
+              📝 Jurnal Ringkas Arus Mutasi Kas
             </h3>
             <p className="m-0 mt-1 text-xs text-slate-400 font-medium">
               Log transaksi mutasi modal kas masuk (In) dan keluar (Out) terbaru di lapangan.
