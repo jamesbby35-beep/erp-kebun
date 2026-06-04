@@ -1,5 +1,8 @@
 "use client";
 
+// Memaksa Vercel agar selalu mengambil data live terbaru dari Supabase
+export const dynamic = "force-dynamic";
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
@@ -16,7 +19,6 @@ interface MasterBlok {
 interface Investor {
   id: string;
   nama: string;
-  percent_saham?: number; // handle opsional database jika typo kolom
   persen_saham: number;
   modal: number;
   block_id: string;
@@ -118,7 +120,7 @@ export default function ManajemenSahamSektorBlockPage() {
   // ==========================================
   const labaBersihAlpukat = Math.max(0, inputAlpukat.omset - inputAlpukat.pengeluaran - inputAlpukat.risetDeviden);
   const labaBersihLainnya = Math.max(0, inputLainnya.omset - inputLainnya.pengeluaran - inputLainnya.risetDeviden);
-  const totalPersenSahamSaatIni = investors.reduce((sum, inv) => sum + (inv.persen_saham || 0), 0);
+  const totalPersenSahamSaatIni = investors.reduce((sum, inv) => sum + inv.persen_saham, 0);
 
   // ==========================================
   // C. AKSI: TAMBAH INVESTOR BARU (KLAUSUL BERSYARAT)
@@ -132,6 +134,7 @@ export default function ManajemenSahamSektorBlockPage() {
     let listInvestorDiperbarui = [...investors];
     const sisaSlotSaham = 100 - totalPersenSahamSaatIni;
 
+    // JIKA TOTAL SAHAM SUDAH 100%, WAJIB PAKAI KLAUSUL PENYEIMBANGAN
     if (totalPersenSahamSaatIni >= 100) {
       if (metodeKurangSaham === 'kurang_spesifik') {
         if (!investorTargetDipotong) return alert("Saham sudah 100%! Mohon pilih 1 investor lama yang porsi sahamnya ingin dikurangi.");
@@ -144,6 +147,7 @@ export default function ManajemenSahamSektorBlockPage() {
           listInvestorDiperbarui[targetIdx].persen_saham -= newInvestor.persen_saham;
         }
       } else {
+        // Potong merata
         if (listInvestorDiperbarui.length > 0) {
           const potonganPerInvestor = newInvestor.persen_saham / listInvestorDiperbarui.length;
           const adaSahamMinus = listInvestorDiperbarui.some(inv => inv.persen_saham <= potonganPerInvestor);
@@ -159,12 +163,16 @@ export default function ManajemenSahamSektorBlockPage() {
         }
       }
     } else {
+      // JIKA SAHAM BELUM 100%, CEK APAKAH INPUT BARU MELEBIHI SISA SLOT YANG TERSEDIA
       if (newInvestor.persen_saham > sisaSlotSaham) {
         return alert(`Porsi saham yang dimasukkan (${newInvestor.persen_saham}%) melebihi sisa kapasitas slot kosong lahan (${sisaSlotSaham}%). Harap sesuaikan angka atau isi ulang setelah saham digenapkan ke 100%.`);
       }
+      // Logika masuk langsung tanpa merubah data investor lama
+      console.log("Saham belum 100%, investor baru langsung dimasukkan ke slot kosong.");
     }
 
     try {
+      // 1. Hanya update porsi investor lama jika terjadi pemotongan klausul (saat saham sudah 100%)
       if (totalPersenSahamSaatIni >= 100) {
         for (const invLama of listInvestorDiperbarui) {
           await supabase
@@ -174,6 +182,7 @@ export default function ManajemenSahamSektorBlockPage() {
         }
       }
 
+      // 2. Insert investor baru ke database
       const { error: insertError } = await supabase
         .from('master_investor')
         .insert([{
@@ -278,9 +287,8 @@ export default function ManajemenSahamSektorBlockPage() {
               onChange={(e) => setSelectedBlock(e.target.value)} 
               className="bg-white text-slate-800 text-xs font-bold px-3 py-1.5 rounded border-none outline-none focus:ring-2 focus:ring-emerald-500"
             >
-              {availableBlocks.map((blok, idx) => (
-                /* ✅ AMAN: Menghindari crash jika block_id ada yang kembar/null */
-                <option key={blok.block_id || `blok-${idx}`} value={blok.block_id}>
+              {availableBlocks.map((blok) => (
+                <option key={blok.block_id} value={blok.block_id}>
                   {blok.block_id}
                 </option>
               ))}
@@ -418,9 +426,8 @@ export default function ManajemenSahamSektorBlockPage() {
             {metodeKurangSaham === 'kurang_spesifik' && totalPersenSahamSaatIni >= 100 && (
               <select value={investorTargetDipotong} onChange={(e) => setInvestorTargetDipotong(e.target.value)} className="w-full border p-2 rounded bg-white mt-1 text-[11px]">
                 <option value="">-- Pilih Investor Yang Sahamnya Dikurangi --</option>
-                {investors.map((inv, idx) => (
-                  /* ✅ AMAN: Penguat key cadangan */
-                  <option key={inv.id || `target-${idx}`} value={inv.id}>{inv.nama} (Saham Saat Ini: {inv.persen_saham}%)</option>
+                {investors.map(inv => (
+                  <option key={inv.id} value={inv.id}>{inv.nama} (Saham Saat Ini: {inv.persen_saham}%)</option>
                 ))}
               </select>
             )}
@@ -452,10 +459,7 @@ export default function ManajemenSahamSektorBlockPage() {
           <div className="pt-1">
             <select value={investorPilihanDest} onChange={(e) => setInvestorPilihanDest(e.target.value)} className="text-xs border p-2 rounded bg-white min-w-[220px]">
               <option value="">-- Pilih Pihak Penampung --</option>
-              {investors.map((inv, idx) => (
-                /* ✅ AMAN: Penguat key cadangan */
-                <option key={inv.id || `dest-${idx}`} value={inv.id}>{inv.nama}</option>
-              ))}
+              {investors.map(inv => <option key={inv.id} value={inv.id}>{inv.nama}</option>)}
             </select>
           </div>
         )}
@@ -496,23 +500,20 @@ export default function ManajemenSahamSektorBlockPage() {
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium text-slate-600">
                 {investors.map((inv, idx) => {
-                  const dividenAlpukatPihak = (labaBersihAlpukat * (inv.persen_saham || 0)) / 100;
-                  const dividenLainnyaPihak = (labaBersihLainnya * (inv.persen_saham || 0)) / 100;
+                  const dividenAlpukatPihak = (labaBersihAlpukat * inv.persen_saham) / 100;
+                  const dividenLainnyaPihak = (labaBersihLainnya * inv.persen_saham) / 100;
                   const totalUangDiterima = dividenAlpukatPihak + dividenLainnyaPihak;
 
                   return (
-                    /* ✅ KUNCI PERBAIKAN UTAMA:
-                       Menggabungkan inv.id dengan alternatif indeks loop 'inv-' + idx.
-                       Jika database menghasilkan id kosong atau null, React akan beralih ke index string ini.
-                    */
-                    <tr key={inv.id || `inv-${idx}`} className="hover:bg-slate-50 transition">
-                      <td className="p-3 font-bold text-slate-800">👤 {inv.nama || "Tanpa Nama"}</td>
+                    /* PERBAIKAN: key diset unik menggunakan inv.id dengan fallback template literal indeks array */
+                    <tr key={inv.id || `inv-row-${idx}`} className="hover:bg-slate-50 transition">
+                      <td className="p-3 font-bold text-slate-800">👤 {inv.nama}</td>
                       <td className="p-3 text-center">
                         <span className="bg-emerald-50 text-emerald-800 px-2.5 py-0.5 font-extrabold font-mono rounded">
-                          {inv.persen_saham || 0}%
+                          {inv.persen_saham}%
                         </span>
                       </td>
-                      <td className="p-3 font-mono text-slate-400">Rp {(inv.modal || 0).toLocaleString('id-ID')}</td>
+                      <td className="p-3 font-mono text-slate-400">Rp {inv.modal.toLocaleString('id-ID')}</td>
                       <td className="p-3 font-mono text-emerald-700 font-bold">Rp {dividenAlpukatPihak.toLocaleString('id-ID')}</td>
                       <td className="p-3 font-mono text-orange-700 font-bold">Rp {dividenLainnyaPihak.toLocaleString('id-ID')}</td>
                       <td className="p-3 font-mono font-extrabold text-center text-emerald-950 bg-emerald-50">
